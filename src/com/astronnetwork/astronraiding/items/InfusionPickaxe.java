@@ -82,22 +82,25 @@ public class InfusionPickaxe extends RaidingItem
         if(face == null)
             return;
 
-        if(face == BlockFace.DOWN || face == BlockFace.UP)
-        {
-            breakXZ(block, player);
-        }
-        else
-        {
-            if(direction.equals("X"))
-            {
-                breakXY(block, player);
+        if(face != null) {
+            if (face == BlockFace.DOWN || face == BlockFace.UP) {
+                breakXZ(block, player);
+                return;
             }
+        }
 
-            if(direction.equals("Z"))
-            {
-                breakZY(block, player);
-            }
+        if(direction.equals("X"))
+        {
+            breakXY(block, player);
+            return;
         }
+
+        if(direction.equals("Z"))
+        {
+            breakZY(block, player);
+            return;
+        }
+
     }
 
     public void breakXY(Block block, Player player)

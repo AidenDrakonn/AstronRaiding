@@ -2,6 +2,8 @@ package com.astronnetwork.astronraiding.items;
 
 import com.astronnetwork.astronraiding.AstronRaiding;
 import com.astronnetwork.astronraiding.util.Util;
+import com.massivecraft.factions.*;
+import com.massivecraft.factions.integration.Econ;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -74,9 +76,6 @@ public class VoidChest extends RaidingItem
         if(!isItem(item))
             return;
 
-        if(!(block.getState() instanceof Chest))
-            return;
-
         voidChests.put(block.getLocation(), player.getUniqueId());
     }
 
@@ -87,18 +86,25 @@ public class VoidChest extends RaidingItem
             @Override
             public void run()
             {
-            for(Location location : voidChests.keySet())
-            {
-                Block block = location.getBlock();
+                for(Location location : voidChests.keySet())
+                {
+                    Block block = location.getBlock();
+                    if (!(block.getState() instanceof Chest)) {
+                        System.out.println("[VoidChest] Possible error, Block is not a chest!");
+                        continue;
+                    }
 
-                if (block.getState() instanceof Chest) {
                     Chest chest = (Chest) block.getState();
 
-                    if (chest == null)
+                    if (chest == null) {
+                        System.out.println("[VoidChest] Possible error, chest is equal to null!");
                         continue;
+                    }
 
-                    if (chest.getInventory() == null)
+                    if (chest.getInventory() == null) {
+                        System.out.println("[VoidChest] Possible error, chest does not have an inventory");
                         continue;
+                    }
 
                     Inventory chestInventory = chest.getInventory();
                     double chestWorth = 0;
@@ -116,9 +122,15 @@ public class VoidChest extends RaidingItem
                         continue;
 
                     OfflinePlayer owner = Bukkit.getOfflinePlayer(voidChests.get(location));
-                    economy.depositPlayer(owner, chestWorth);
+                    Faction faction = Board.getInstance().getFactionAt(new FLocation(location));
+                    if(faction.isWilderness() || faction.isSafeZone() || faction.isWarZone()) {
+                        economy.depositPlayer(owner, chestWorth);
+                    }
+                    else
+                    {
+                        Econ.deposit(faction.getAccountId(), chestWorth);
+                    }
                 }
-            }
             }
         }, 500, sellInterval*20);
     }
@@ -134,6 +146,8 @@ public class VoidChest extends RaidingItem
         }
 
         sellInterval = plugin.getConfig().getInt("voidchest.sellinterval");
+
+        System.out.println("[VoidChest] Data has been loaded!");
     }
 
     public void saveData()
@@ -152,6 +166,8 @@ public class VoidChest extends RaidingItem
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("[VoidChest] Data has been saved!");
     }
 
     public void setup()
@@ -167,6 +183,7 @@ public class VoidChest extends RaidingItem
             try
             {
                 datafile.createNewFile();
+                System.out.println("[VoidChest] Data.yml did not exist, created it");
             }
 
             catch(IOException e)

@@ -67,7 +67,7 @@ public class AstronRaiding extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SandWand(), this);
         getServer().getPluginManager().registerEvents(new ShockwavePickaxe(), this);
         getServer().getPluginManager().registerEvents(new TrayPickaxe(), this);
-        getServer().getPluginManager().registerEvents(new VoidChest(), this);
+        getServer().getPluginManager().registerEvents(voidChest, this);
         getServer().getPluginManager().registerEvents(new ItemNameTag(), this);
     }
 

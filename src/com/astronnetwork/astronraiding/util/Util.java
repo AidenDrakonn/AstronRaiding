@@ -821,7 +821,7 @@ public class Util {
     {
         Faction faction = Board.getInstance().getFactionAt(new FLocation(location));
         if((faction.isWilderness() || faction.equals(FPlayers.getInstance().getByPlayer(player).getFaction()))
-        && AstronRaiding.getWorldGuardPlugin().canBuild(player, location) && !location.getBlock().getType().equals(Material.BEDROCK))
+        && AstronRaiding.getWorldGuardPlugin().canBuild(player, location) && !location.getBlock().getType().equals(Material.BEDROCK ))
             return true;
         return false;
     }

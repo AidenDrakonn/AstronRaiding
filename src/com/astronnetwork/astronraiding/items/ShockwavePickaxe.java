@@ -2,6 +2,7 @@ package com.astronnetwork.astronraiding.items;
 
 import com.astronnetwork.astronraiding.AstronRaiding;
 import com.astronnetwork.astronraiding.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -75,24 +76,23 @@ public class ShockwavePickaxe extends RaidingItem {
         if(direction == null)
             return;
 
-        if(face == null)
-            return;
-
-        if(face == BlockFace.DOWN || face == BlockFace.UP)
-        {
-            breakXZ(block, player);
+        if(face != null) {
+            if (face == BlockFace.DOWN || face == BlockFace.UP) {
+                breakXZ(block, player);
+                return;
+            }
         }
-        else
-        {
-            if(direction.equals("X"))
-            {
-                breakXY(block, player);
-            }
 
-            if(direction.equals("Z"))
-            {
-                breakZY(block, player);
-            }
+        if(direction.equals("X"))
+        {
+            breakXY(block, player);
+            return;
+        }
+
+        if(direction.equals("Z"))
+        {
+            breakZY(block, player);
+            return;
         }
     }
 

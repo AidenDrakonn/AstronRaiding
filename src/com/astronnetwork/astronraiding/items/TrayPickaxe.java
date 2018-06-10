@@ -22,7 +22,7 @@ public class TrayPickaxe extends RaidingItem
     @Override
     public ItemStack getItem()
     {
-        return Util.createItem(Material.DIAMOND_PICKAXE, "§5§lTray Pickaxe", "§7§oBuild all the walls! (like trump)");
+        return Util.createItem(Material.DIAMOND_PICKAXE, "§5§lTray Pickaxe", "§7§oBuild walls faster!");
     }
 
 
